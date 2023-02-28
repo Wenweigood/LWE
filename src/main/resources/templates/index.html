@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>在线加解密</title>
+</head>
+<body>
+<script language="javascript">
+    window.onload=function () {
+        var sel=document.getElementById("mode1");
+        sel.onchange=function (){
+            document.getElementById("bit-0").disabled = false;
+            document.getElementById("bit-1").disabled = false;
+            document.getElementById("PF").disabled = true;
+            document.getElementById("SK").disabled = true;
+            document.getElementById("submit").value="加密";
+        }
+        var sel2=document.getElementById("mode2");
+        sel2.onchange=function (){
+            document.getElementById("bit-0").disabled = true;
+            document.getElementById("bit-1").disabled = true;
+            document.getElementById("PF").disabled = false;
+            document.getElementById("SK").disabled = false;
+            document.getElementById("submit").value="解密";
+        }
+    }
+    document.onreadystatechange = function () {
+        if(document.readyState=="complete") {
+            var e=document.getElementById("error").value;
+            if(e!=""&&e!=null){
+                alert(e);
+            }
+            var e2=document.getElementById("result").value;
+            if(e2!=""&&e!=null){
+                alert(e2);
+            }
+        }
+    }
+</script>
+<form action="/lweEncrypt" method="post" enctype="multipart/form-data">
+    <input type="radio" id="mode1" name="mode" value=1 checked="true">加密
+    <input type="radio" id="mode2" name="mode" value=0>解密<br><br>
+
+    消息比特<input type="radio" id="bit-1" name="messagebit" value=1 checked="true">1
+    <input type="radio" id="bit-0" name="messagebit" value=0>0<br><br>
+
+    <!--密钥：<input type="text" id="secretKey" name="secretKey"><br>-->
+
+    <input type="file" id="PF" name="PF" disabled="true">
+    <input type="file" id="SK" name="SK" disabled="true">
+
+    <input type="submit" id="submit" value="加密">
+</form>
+<input type="text" id="result" hidden="true" name="result" th:value="${result}">
+<input type="text" id="error" hidden="true" name="error" th:value="${error}">
+</body>
+
+</html>
